@@ -25,11 +25,17 @@ public interface UserMapper {
     String selectQuestionByUsername(String username);
 
     /**
-     * 多个参数要用@Param注解
+     * 多个参数要用@Param注解,然后再xml里面参数类型用map
      * @param username
      * @param question
      * @param Answer
      * @return
      */
     int checkAnswer(@Param("username") String username,@Param("question") String question,@Param("answer") String Answer);
+
+    int updatePasswordByUsername(@Param("username")String username,@Param("passwordNew")String passwordNew);
+
+    int checkPassword(@Param(value="password")String password,@Param("userId")Integer userId);
+
+    int checkEmailByUserId(@Param(value="email")String email,@Param(value="userId")Integer userId);
 }

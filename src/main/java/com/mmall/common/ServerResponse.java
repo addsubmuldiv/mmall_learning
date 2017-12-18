@@ -45,7 +45,7 @@ public class ServerResponse<T> implements Serializable{
      * @return
      */
     @JsonIgnore
-    public boolean isSucess() {
+    public boolean isSuccess() {
         return this.status == ResponseCode.SUCCESS.getCode();
     }
 
@@ -65,7 +65,7 @@ public class ServerResponse<T> implements Serializable{
         return new ServerResponse<T>(ResponseCode.SUCCESS.getCode());
     }
 
-    public static <T> ServerResponse<T> createBySuccess(String msg) {
+    public static <T> ServerResponse<T> createBySuccessMessage(String msg) {
         return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(),msg);
     }
 

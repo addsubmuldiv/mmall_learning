@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class TokenCache {
     private static Logger logger = LoggerFactory.getLogger(TokenCache.class);
 
+    public static final String TOKEN_PREFIX = "token_";
     /**
      * 使用LRU算法，当缓存超过10000就使用LRU算法把最少使用的清除，有效期是12个小时
      */

@@ -5,3 +5,5 @@ common用的常量，全局异常放这里
 
 
 controller.portal  门户的意思，给前端用的
+
+5-5
