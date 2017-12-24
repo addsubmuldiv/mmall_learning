@@ -174,4 +174,27 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--使用PageHelper要注意SQL语句最后千万别加分号-->
+  <select id="selectList" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from mmall_product
+    ORDER BY ASC
+  </select>
+
+  <!--mybatis里面的where标签可以把里面嵌套的语句的第一个单词替换成where，避免and直接跟在from后面-->
+  <select id="selectByNameAndProductId" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from mmall_product
+    <where>
+      <if test="productName != null">
+        and name like #{productName}
+      </if>
+      <if test="productId != null">
+        and id = #{productId}
+      </if>
+    </where>
+  </select>
 </mapper>
