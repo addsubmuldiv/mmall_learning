@@ -29,18 +29,26 @@ public class FTPUtil {
     public static boolean uploadFile(List<File> fileList) throws IOException {
         FTPUtil ftpUtil = new FTPUtil(ftpIp,21,ftpUser,ftpPass);
         logger.info("开始连接ftp服务器");
+        //把文件上传到img这个目录下
         boolean result = ftpUtil.uploadFile("img",fileList);
-        logger.info("开始连接ftp服务器,结束上传,上传结果:{}");
+        logger.info("结束上传,上传结果:{}",result);
         return result;
     }
 
-
+    /**
+     * 这里的remotePath是指在FTP服务器里面的那个文件夹下
+     * @param remotePath
+     * @param fileList
+     * @return
+     * @throws IOException
+     */
     private boolean uploadFile(String remotePath,List<File> fileList) throws IOException {
         boolean uploaded = true;
         FileInputStream fis = null;
         //连接FTP服务器
         if(connectServer(this.ip,this.port,this.user,this.pwd)){
             try {
+                //设置FTP工作的相关参数
                 ftpClient.changeWorkingDirectory(remotePath);
                 ftpClient.setBufferSize(1024);
                 ftpClient.setControlEncoding("UTF-8");
@@ -48,14 +56,15 @@ public class FTPUtil {
                 ftpClient.enterLocalPassiveMode();
                 for(File fileItem : fileList){
                     fis = new FileInputStream(fileItem);
+                    //通过流上传文件
                     ftpClient.storeFile(fileItem.getName(),fis);
                 }
-
             } catch (IOException e) {
                 logger.error("上传文件异常",e);
                 uploaded = false;
                 e.printStackTrace();
             } finally {
+                //关闭流然后关闭FTP连接
                 fis.close();
                 ftpClient.disconnect();
             }
@@ -66,25 +75,18 @@ public class FTPUtil {
 
 
     private boolean connectServer(String ip,int port,String user,String pwd){
-
         boolean isSuccess = false;
         ftpClient = new FTPClient();
         try {
-            ftpClient.connect(ip);
+            //这里设置连接的IP和端口
+            ftpClient.connect(ip,port);
+            //用账号密码登录
             isSuccess = ftpClient.login(user,pwd);
         } catch (IOException e) {
             logger.error("连接FTP服务器异常",e);
         }
         return isSuccess;
     }
-
-
-
-
-
-
-
-
 
 
 

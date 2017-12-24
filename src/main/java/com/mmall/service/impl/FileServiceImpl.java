@@ -27,19 +27,22 @@ public class FileServiceImpl implements IFileService{
         String fileName = file.getOriginalFilename();
 
         String fileExtensionName = fileName.substring(fileName.lastIndexOf(".")+1);
-        //使用UUID避免重名
+        //使用UUID来重命名文件，避免重名
         String uploadFileName = UUID.randomUUID().toString()+"."+fileExtensionName;
 
         logger.info("开始上传文件，上传的文件名:{},上传的路径:{},新文件名:{}",fileName,path,uploadFileName);
 
         File fileDir = new File(path);
+        //如果upload那个目录并不存在，那么把这里设置为可写，然后新建目录
         if(!fileDir.exists()) {
             fileDir.setWritable(true);
             fileDir.mkdirs();
         }
+        //在upload那个文件夹下新建文件
         File targetFile = new File(path,uploadFileName);
 
         try {
+            //这里把文件复制过去，也就是到upload里面
             file.transferTo(targetFile);
             //文件已经上传成功了
 

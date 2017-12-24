@@ -130,8 +130,11 @@ public class ProductManageController {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录,请登录管理员");
         }
         if(iUserService.checkAdminRole(user).isSuccess()){
+            //这个路径是和WEB-INF同级的一个目录，也就是说上传文件的时候都是在这个文件夹里面
             String path = request.getSession().getServletContext().getRealPath("upload");
+            //传完文件会返回一个URI
             String targetFileName = iFileService.upload(file,path);
+            //把URI和ftp服务器的前缀拼起来组成URL，然后返回
             String url = PropertiesUtil.getProperty("ftp.server.http.prefix")+targetFileName;
 
             Map fileMap = Maps.newHashMap();
