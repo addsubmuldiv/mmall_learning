@@ -41,12 +41,13 @@ public class CategoryServiceImpl implements ICategoryService {
 
 
     public ServerResponse updateCategoryName(Integer categoryId,String categoryName) {
-        if(categoryId==null || StringUtils.isBlank(categoryName)) {
+        if(categoryId == null || StringUtils.isBlank(categoryName)){
             return ServerResponse.createByErrorMessage("更新品类参数错误");
         }
         Category category = new Category();
         category.setId(categoryId);
         category.setName(categoryName);
+
         int rowCount = categoryMapper.updateByPrimaryKeySelective(category);
         if(rowCount > 0){
             return ServerResponse.createBySuccess("更新品类名字成功");
